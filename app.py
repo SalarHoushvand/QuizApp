@@ -204,6 +204,24 @@ def quiz():
         return render_template("quiz.html", quiz_id=quiz_id, questions=questions)
 
 
+@app.route('/progress', methods=['GET'])
+def progress():
+    """get user progress and show it in a chart"""
+
+    # get current user info
+    user_email = current_user.email
+    quesries = mds.Scores.query.filter_by(user_email=user_email).all()
+    scores = []
+    dates = []
+    for i in quesries:
+        scores.append(i.score)
+        dates.append(i.submit_date)
+    score_str = (str(scores).replace("[", '').replace(']', '').replace("'",""))
+    date_str = (str(dates).replace("]", '').replace('[', '').replace("'",""))
+
+    return render_template("progress.html", score_str=score_str, date_str=date_str)
+
+
 # app run
 if __name__ == "__main__":
     app.run(debug=True)
