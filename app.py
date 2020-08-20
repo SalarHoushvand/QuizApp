@@ -80,6 +80,9 @@ def logout():
 
 @app.route("/pre_quiz", methods=['GET', 'POST'])
 def pre_quiz():
+    user_email = current_user.email
+    user_id_arr = user_email.split("@")
+    user_id=user_id_arr[0]
     if request.method == 'POST':
         question_num = request.form.get('questionNumber')
         resp = requests.get('https://mathgen-api.herokuapp.com/union/' + question_num + '/11')
@@ -100,7 +103,7 @@ def pre_quiz():
         topic_json = topics.json()
         topics_list = list(topic_json['topics'].keys())
         # add_questions(questions, quiz_id)
-        return render_template("pre_quiz.html", topics=topics_list)
+        return render_template("pre_quiz.html", topics=topics_list, user_id=user_id)
 
 
 @app.route("/quiz", methods=['GET', 'POST'])
