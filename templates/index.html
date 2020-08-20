@@ -10,32 +10,26 @@
         <div class="col">
             <div class="login-container">
 
+                <!-- // header image -->
                 <img src="../static/images/mathematics.svg" class="math-svg">
                 <h1>Register</h1>
                 <form action="{{ url_for('index')}}" method="POST" class="register-form">
-
                     {{ helper.displayField(form.email, 'Username', autocomplete='off', autofocus=true, class='form-control register-inputs' ) }}
                     {{ helper.displayField(form.password, 'Password', class='form-control register-inputs' ) }}
                     {{ helper.displayField(form.confirm_pswd, 'Retype Password', class='form-control register-inputs' ) }}
-
                     <div>
                         {{ form.submit_button(class = 'register-btn') }}
-
                         <br>
-
                     </div>
-
-
                     {{ form.csrf_token }}
                 </form>
+
+                <!-- button for login page -->
                 <a href="{{ url_for('login')}}"><button class="register-btn-white">Login</button></a>
 
             </div>
-
         </div>
-
     </div>
-
 </div>
 
 {% endblock %}

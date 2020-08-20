@@ -99,6 +99,10 @@ body {
 
 }
 
+.question-p {
+    font-weight: bold;
+}
+
 /* .quiz-label::before {
     content: "";
     height: 30px;

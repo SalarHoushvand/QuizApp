@@ -51,9 +51,8 @@ print('\n\n\n\n\n')
 # finally:
 #     print("it's done")
 #
+topics = requests.get('https://mathgen-api.herokuapp.com/topics')
 
-s = '[1,2,3]'
-snow= (s.replace('[','').replace(']',''))
-splitted = snow.split(',')
-print(splitted)
-print(type(splitted))
+topic_json = topics.json()
+
+print(topic_json['topics']['bayes theorem'])
