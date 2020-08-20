@@ -22,11 +22,13 @@
                         {{ form.submit_button(class = 'register-btn') }}
 
                         <br>
-                        <button class="register-btn-white">Login</button>
+
                     </div>
+
 
                     {{ form.csrf_token }}
                 </form>
+                <a href="{{ url_for('login')}}"><button class="register-btn-white">Login</button></a>
 
             </div>
 

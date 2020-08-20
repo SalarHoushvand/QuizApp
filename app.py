@@ -8,7 +8,6 @@ from clarifai.errors import ApiError
 import uuid
 from datetime import date
 
-
 # APP
 app = Flask(__name__)
 app.secret_key = 'replace later'
@@ -47,8 +46,8 @@ def index():
         user = mds.User(email=email, password=hashed_paswd)
         db.session.add(user)
         db.session.commit()
-        flash("registered successfully", 'success')
-        return  redirect(url_for('login'))
+
+        return redirect(url_for('login'))
         # return redirect(url_for("login"))
 
     return render_template("index.html", form=reg_form)
@@ -73,19 +72,17 @@ def login():
 @app.route("/logout", methods=['GET'])
 def logout():
     logout_user()
-    flash("you have logged out", 'success')
     return redirect(url_for('login'))
+
 
 # =====================================================================================================================
 
 
-
 @app.route("/pre_quiz", methods=['GET', 'POST'])
 def pre_quiz():
-
     if request.method == 'POST':
         question_num = request.form.get('questionNumber')
-        resp = requests.get('https://mathgen-api.herokuapp.com/union/'+question_num + '/11')
+        resp = requests.get('https://mathgen-api.herokuapp.com/union/' + question_num + '/11')
         if resp.status_code != 200:
             # This means something went wrong.
             raise ApiError('GET /tasks/ {}'.format(resp.status_code))
@@ -103,11 +100,10 @@ def pre_quiz():
         topic_json = topics.json()
         topics_list = list(topic_json['topics'].keys())
         # add_questions(questions, quiz_id)
-        return render_template("pre_quiz.html", topics= topics_list)
+        return render_template("pre_quiz.html", topics=topics_list)
 
 
-
-@app.route("/quiz", methods=['GET','POST'])
+@app.route("/quiz", methods=['GET', 'POST'])
 def quiz():
     quiz_id = request.args.get("quiz_id")
     user_object = mds.QuizJson.query.filter_by(quiz_id=quiz_id).first()
@@ -118,11 +114,11 @@ def quiz():
 
     # to calculate score
     question_num = len(questions)
-    point = 100/question_num
+    point = 100 / question_num
     score_int = 0
 
     if request.method == 'POST':
-        user_selections=[]
+        user_selections = []
         for i in questions:
             questionId = i['questionID']
             selected = int(request.form.get(questionId))
@@ -133,29 +129,15 @@ def quiz():
             else:
                 print('wrong')
         score = str(score_int)
-        quiz = mds.Scores(quiz_id=quiz_id, user_email=user_email, user_selections=user_selections, submit_date=submit_date, score=score)
+        quiz = mds.Scores(quiz_id=quiz_id, user_email=user_email, user_selections=user_selections,
+                          submit_date=submit_date, score=score)
         db.session.add(quiz)
         db.session.commit()
 
-        return render_template("post_quiz.html", quiz_id=quiz_id, questions = questions, user_selections=user_selections, submit_date=submit_date, user_email=user_email, score=score)
+        return render_template("post_quiz.html", quiz_id=quiz_id, questions=questions, user_selections=user_selections,
+                               submit_date=submit_date, user_email=user_email, score=score)
     else:
-        return render_template("quiz.html", quiz_id=quiz_id, questions = questions)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return render_template("quiz.html", quiz_id=quiz_id, questions=questions)
 
 
 # =====================================================================================================================
@@ -178,11 +160,6 @@ def quiz():
 #         #add_questions(questions, quiz_id)
 #
 #
-
-
-
-
-
 
 
 #
@@ -208,7 +185,7 @@ def quiz():
 #
 @app.route("/post_quiz", methods=['GET'])
 def post_quiz():
-    quiz_id='37264308e1ad11ea823f8c164545a35c'
+    quiz_id = '37264308e1ad11ea823f8c164545a35c'
 
     user_object = mds.Question.query.filter_by(quiz_id=quiz_id).all()
     questions = {}
@@ -220,27 +197,27 @@ def post_quiz():
         option4 = i.option4
         answer = i.answer
 
-
         questions.update([
-        {
-          "answerSelectionType": "single",
-          "answers": [
-           option1,
-            option2,
-            option3,
-           option4
-          ],
-          "correctAnswer": answer,
-          "explanation": "",
-          "messageForCorrectAnswer": "Correct Answer",
-          "messageForIncorrectAnswer": "Incorrect Answer",
-          "point": "10",
-          "question": question,
-          "questionType": "text"
-        }
-      ])
+            {
+                "answerSelectionType": "single",
+                "answers": [
+                    option1,
+                    option2,
+                    option3,
+                    option4
+                ],
+                "correctAnswer": answer,
+                "explanation": "",
+                "messageForCorrectAnswer": "Correct Answer",
+                "messageForIncorrectAnswer": "Incorrect Answer",
+                "point": "10",
+                "question": question,
+                "questionType": "text"
+            }
+        ])
 
-    return render_template("quiz.html", questions = questions)
+    return render_template("quiz.html", questions=questions)
+
 
 # @app.route("/dashboard", methods=['POST','GET']):
 # def dashbaord():

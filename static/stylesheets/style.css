@@ -6,6 +6,14 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+.arrow {
+    color: white;
+}
+
+.arrow:hover {
+    color: white;
+}
+
 .login-container {
     margin-left: auto;
     margin-right: auto;
