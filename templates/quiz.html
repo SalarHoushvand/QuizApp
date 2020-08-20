@@ -1,0 +1,68 @@
+{% extends "prelogin-layout.html" %}
+
+{% block title %}Quiz{% endblock %}
+
+{% block content %}
+
+
+
+<nav class="navbar navbar-expand-md navbar-dark sticky-top">
+    <div class="container-fluid">
+        <p class="navbar-welcome">Welcome <span style="color:#FE7676">user</span></p>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a class="nav-link" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Projects</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Add</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Log out</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col quiz-col">
+
+
+            <h1>Quiz</h1>
+
+
+            <form action="{{ url_for('quiz', quiz_id=quiz_id) }}" method="POST" enctype="multipart/form-data"
+                value="{{ quiz_id }}" name="quiz">
+                {% for i in questions %}
+
+                <p name="question" value="{{ i['question'] }}">{{ i["question"] }}</p>
+                <input type="radio" id="{{ i['question'] }}1" name="{{ i['questionID'] }}" value="1">
+                <label class="quiz-radio" for="{{ i['question'] }}1">{{ i["answers"][0] }}</label><br>
+
+                <input type="radio" id="{{ i['question'] }}2" name="{{ i['questionID'] }}" value="2">
+                <label class="quiz-radio" for="{{ i['question'] }}2">{{ i["answers"][1] }}</label><br>
+
+                <input type="radio" id="{{ i['question'] }}3" name="{{ i['questionID'] }}" value="3">
+                <label class="quiz-radio" for="{{ i['question'] }}3">{{ i["answers"][2] }}</label><br>
+
+                <input type="radio" id="{{ i['question'] }}4" name="{{ i['questionID'] }}" value="4">
+                <label class="quiz-radio" for="{{ i['question'] }}4">{{ i["answers"][3] }}</label><br>
+                <br>
+                <br>
+
+                {% endfor %}
+                <button type="submit" class="register-btn">Submit</button>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

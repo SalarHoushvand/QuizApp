@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="../static/stylesheets/style.css" rel="stylesheet" />
+
+    <title>test</title>
+
+    <style>
+        .form-control {
+            width: 60%;
+            margin: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark sticky-top">
+        <div class="container-fluid">
+            <p class="navbar-welcome"><svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left-short"
+                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M7.854 4.646a.5.5 0 0 1 0 .708L5.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z" />
+                    <path fill-rule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h6.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z" />
+                </svg></p>
+
+
+
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active"><a class="nav-link" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Add</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Log out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col quiz-col">
+                <h2>Quiz</h2>
+                <form action="{{ url_for('quiz', quiz_id=quiz_id) }}" method="POST" enctype="multipart/form-data"
+                    value="{{ quiz_id }}" name="quiz">
+
+                    <fieldset id="g1">
+
+                        <p name="question" value="{{ i['question'] }}">What is the union of these two sets? {0, 11, 16,
+                            17,
+                            16} {2, 13, 5, 3, 18}</p>
+                        <div class="checkboxes">
+                            <input class="checkbox-box" type="radio" id="option1" name="g1" value="1">
+                            <label class="quiz-radio" name="g1" for="option1">{0, 2, 3, 5, 11, 13, 16, 17,
+                                18}</label><br>
+                        </div>
+
+
+                        <input type="checkbox" id="option2" name="g1" value="2">
+                        <label name="g1" for="option2">{1, 4, 5, 8, 9, 11, 16}</label><br>
+
+                        <input type="checkbox" id="option3" name="g1" value="3">
+                        <label name="g1" for="option3">{1, 2, 6, 7, 9, 14, 15, 19}</label><br>
+
+                        <input type="checkbox" id="option4" name="g1" value="4">
+                        <label name="g1" for="option4">{3, 4, 5, 8, 10, 11, 14, 16, 18}</label><br>
+                    </fieldset>
+
+
+                    <fieldset id="g1">
+
+                        <p name="question" value="{{ i['question'] }}">What is the union of these two sets? {0, 11, 16,
+                            17,
+                            16} {2, 13, 5, 3, 18}</p>
+                        <div class="checkboxes">
+                            <input class="checkbox-box" type="checkbox" id="option1" name="g1" value="1">
+                            <label name="g1" for="option1">{0, 2, 3, 5, 11, 13, 16, 17,
+                                18}</label><br>
+                        </div>
+
+
+                        <input type="checkbox" id="option2" name="g1" value="2">
+                        <label name="g1" for="option2">{1, 4, 5, 8, 9, 11, 16}</label><br>
+
+                        <input type="checkbox" id="option3" name="g1" value="3">
+                        <label name="g1" for="option3">{1, 2, 6, 7, 9, 14, 15, 19}</label><br>
+
+                        <input type="checkbox" id="option4" name="g1" value="4">
+                        <label name="g1" for="option4">{3, 4, 5, 8, 10, 11, 14, 16, 18}</label><br>
+                    </fieldset>
+
+
+                    <button type="submit" class="register-btn">Submit</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

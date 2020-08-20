@@ -1,0 +1,35 @@
+{% import "form_helper.html" as helper %}
+
+{% extends "prelogin-layout.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="login-container">
+
+
+
+                <img src="../static/images/mathematics.svg" class="math-svg">
+                <h1>Login</h1>
+
+                <form action="{{ url_for('login')}}" method="POST">
+
+                    {{ helper.displayField(form.email, 'Email', autocomplete='off', autofocus=true,class='form-control register-inputs'  ) }}
+                    {{ helper.displayField(form.password, 'Password',class='form-control register-inputs' ) }}
+
+                    <div>
+                        {{ form.submit_button(class = 'register-btn') }}
+                    </div>
+                    {{ form.csrf_token }}
+                    <button class="register-btn-white">Create Account</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

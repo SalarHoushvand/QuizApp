@@ -1,0 +1,118 @@
+/* general designs */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+    background-color: #ECF6FF;
+    font-family: 'Roboto', sans-serif;
+}
+
+.login-container {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 150px;
+}
+
+.register-form {
+    text-align: center;
+}
+
+.register-inputs {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    background: transparent !important;
+}
+
+
+.math-svg {
+    width: 100px;
+    height: 160px;
+}
+
+.register-btn {
+    background-color: #FE7676;
+    border: none;
+    width: 150px;
+    border-radius: 15px;
+    color: white;
+    margin: 10px;
+}
+
+.register-btn-white {
+    background-color: white;
+    border: 1px solid #FE7676;
+    width: 150px;
+    border-radius: 15px;
+    color: #FE7676;
+    margin: 10px;
+}
+
+/* nanbar */
+
+.navbar {
+    background-color: #53B0FE;
+}
+
+.navbar-welcome {
+    font-size: 20px;
+    padding-top: 20px;
+    color: white;
+}
+
+
+/* pre-quiz */
+
+.pre-quiz-form {
+    margin-top: 20px;
+}
+
+.pre-quiz-input {
+    width: 30% !important;
+}
+
+/* quiz */
+
+.quiz-col {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.quiz-label {
+    width: 300px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 10px;
+    display: flex;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px 2px #C9DDEE;
+
+}
+
+/* .quiz-label::before {
+    content: "";
+    height: 30px;
+    width: 30px;
+    border: 3px solid #53B0FE;
+    border-radius: 50%;
+    margin-right: 20px;
+} */
+input[type="radio"] {
+    display: none;
+
+}
+
+.quiz-radio {
+    position: relative;
+    border: none;
+    padding: 10px 10px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px 2px #C9DDEE;
+    width: 320px;
+}
+
+input[type="radio"]:checked+label {
+    background-color: #95CBF9;
+    font-weight: bold;
+}
