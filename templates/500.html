@@ -27,6 +27,7 @@
     <div class="row">
         <div class="col quiz-col">
             <img src="../static/images/cross.svg" class="math-svg">
+
             <h1>You need to login</h1>
             <button class="register-btn" style="width: 300px;"><a href="{{ url_for('login')}}"><svg width=" 2em"
                         height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor"
@@ -35,6 +36,16 @@
                             d="M7.854 4.646a.5.5 0 0 1 0 .708L5.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z" />
                         <path fill-rule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h6.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z" />
                     </svg> Login</a></button>
+
+            <p>If you were taking a quiz go back and make sure that you answered all the questions</p>
+            <button class="register-btn" style="width: 300px;"><a href="javascript:javascript:history.go(-1)"><svg
+                        width=" 2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M7.854 4.646a.5.5 0 0 1 0 .708L5.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z" />
+                        <path fill-rule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h6.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z" />
+                    </svg> Go Back</a></button>
+
 
         </div>
     </div>
