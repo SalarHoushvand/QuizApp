@@ -13,11 +13,12 @@ from datetime import date
 # APP
 app = Flask(__name__)
 #app.secret_key = os.environ.get('SECRET')
-app.secret_key = 'secret'
+app.secret_key = os.environ.get('SECRET')
 
 # database configs
 app.config[
-    'SQLALCHEMY_DATABASE_URI'] = 'postgres://jhivjrfwkjzlff:9c37a83349353453a04fb5ae5102d86d9b84ae8fea94b46c24e01c3d4a4a0da2@ec2-54-81-37-115.compute-1.amazonaws.com:5432/d3lm6g7l0bs75i'
+    'SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+#'postgres://jhivjrfwkjzlff:9c37a83349353453a04fb5ae5102d86d9b84ae8fea94b46c24e01c3d4a4a0da2@ec2-54-81-37-115.compute-1.amazonaws.com:5432/d3lm6g7l0bs75i'
 #os.environ.get('DATABASE_URL')
 db = mds.SQLAlchemy(app)
 
