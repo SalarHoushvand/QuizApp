@@ -12,11 +12,13 @@ from datetime import date
 
 # APP
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET')
+#app.secret_key = os.environ.get('SECRET')
+app.secret_key = 'secret'
 
 # database configs
 app.config[
-    'SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+    'SQLALCHEMY_DATABASE_URI'] = 'postgres://jhivjrfwkjzlff:9c37a83349353453a04fb5ae5102d86d9b84ae8fea94b46c24e01c3d4a4a0da2@ec2-54-81-37-115.compute-1.amazonaws.com:5432/d3lm6g7l0bs75i'
+#os.environ.get('DATABASE_URL')
 db = mds.SQLAlchemy(app)
 
 # app configs
@@ -165,6 +167,10 @@ def quiz():
     # change quiz to dict and get the questions array
     questions = eval(quizJson)['questions']
 
+    # number of questions
+    question_num = len(questions)
+
+
     # get current users emaik
     user_email = current_user.email
 
@@ -173,6 +179,7 @@ def quiz():
 
     # to calculate score
     question_num = len(questions)
+
     point = 100 / question_num
     score_int = 0
 
@@ -203,7 +210,7 @@ def quiz():
                                submit_date=submit_date, user_email=user_email, score=score)
     else:
         # render quiz.html on GET request
-        return render_template("quiz.html", quiz_id=quiz_id, questions=questions)
+        return render_template("quiz.html", quiz_id=quiz_id, questions=questions, question_num = question_num)
 
 
 @app.route('/progress', methods=['GET'])
@@ -255,4 +262,4 @@ def not_logged_in(e):
 
 # app run
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)

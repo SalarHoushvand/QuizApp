@@ -15,6 +15,25 @@
             width: 60%;
             margin: 10px 20px;
         }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            bottom: -80%;
+            color: red;
+        }
+
+
+        .carousel-control-next-icon {
+            background-image: none;
+            width: auto;
+
+
+        }
+
+        .carousel-control-prev-icon {
+            background-image: none;
+            width: auto;
+        }
     </style>
 </head>
 
@@ -49,58 +68,99 @@
     <div class="container">
         <div class="row">
             <div class="col quiz-col">
-                <h2>Quiz</h2>
+
                 <form action="{{ url_for('quiz', quiz_id=quiz_id) }}" method="POST" enctype="multipart/form-data"
                     value="{{ quiz_id }}" name="quiz">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
 
-                    <fieldset id="g1">
 
-                        <p name="question" value="{{ i['question'] }}">What is the union of these two sets? {0, 11, 16,
-                            17,
-                            16} {2, 13, 5, 3, 18}</p>
-                        <div class="checkboxes">
-                            <input class="checkbox-box" type="radio" id="option1" name="g1" value="1">
-                            <label class="quiz-radio" name="g1" for="option1">{0, 2, 3, 5, 11, 13, 16, 17,
-                                18}</label><br>
+
+                                <!-- // question -->
+                                <p name="question" class="question-p" value="{{ i['question'] }}">{{ i["question"] }}
+                                </p>
+
+                                <!-- // choices -->
+                                <input type="radio" id="{{ i['question'] }}1" name="{{ i['questionID'] }}" value="1">
+                                <label class="quiz-radio" for="{{ i['question'] }}1">{{ i["answers"][0] }}</label><br>
+
+                                <input type="radio" id="{{ i['question'] }}2" name="{{ i['questionID'] }}" value="2">
+                                <label class="quiz-radio" for="{{ i['question'] }}2">{{ i["answers"][1] }}</label><br>
+
+                                <input type="radio" id="{{ i['question'] }}3" name="{{ i['questionID'] }}" value="3">
+                                <label class="quiz-radio" for="{{ i['question'] }}3">{{ i["answers"][2] }}</label><br>
+
+                                <input type="radio" id="{{ i['question'] }}4" name="{{ i['questionID'] }}" value="4">
+                                <label class="quiz-radio" for="{{ i['question'] }}4">{{ i["answers"][3] }}</label><br>
+
+
+
+
+
+
+                            </div>
+                            <div class="carousel-item">
+
+
+                                <!-- // question -->
+                                <p name="question" class="question-p" value="{{ i['question'] }}">{{ i["question"] }}
+                                </p>
+
+                                <!-- // choices -->
+                                <input type="radio" id="{{ i['question'] }}1" name="{{ i['questionID'] }}" value="1">
+                                <label class="quiz-radio" for="{{ i['question'] }}1">{{ i["answers"][0] }}</label><br>
+
+                                <input type="radio" id="{{ i['question'] }}2" name="{{ i['questionID'] }}" value="2">
+                                <label class="quiz-radio" for="{{ i['question'] }}2">{{ i["answers"][1] }}</label><br>
+
+                                <input type="radio" id="{{ i['question'] }}3" name="{{ i['questionID'] }}" value="3">
+                                <label class="quiz-radio" for="{{ i['question'] }}3">{{ i["answers"][2] }}</label><br>
+
+                                <input type="radio" id="{{ i['question'] }}4" name="{{ i['questionID'] }}" value="4">
+                                <label class="quiz-radio" for="{{ i['question'] }}4">{{ i["answers"][3] }}</label><br>
+
+
+
+                            </div>
+                            <div class="carousel-item">
+
+                                <!-- // question -->
+                                <p name="question" class="question-p" value="{{ i['question'] }}">{{ i["question"] }}
+                                </p>
+
+                                <!-- // choices -->
+                                <input type="radio" id="{{ i['question'] }}1" name="{{ i['questionID'] }}" value="1">
+                                <label class="quiz-radio" for="{{ i['question'] }}1">{{ i["answers"][0] }}</label><br>
+
+                                <input type="radio" id="{{ i['question'] }}2" name="{{ i['questionID'] }}" value="2">
+                                <label class="quiz-radio" for="{{ i['question'] }}2">{{ i["answers"][1] }}</label><br>
+
+                                <input type="radio" id="{{ i['question'] }}3" name="{{ i['questionID'] }}" value="3">
+                                <label class="quiz-radio" for="{{ i['question'] }}3">{{ i["answers"][2] }}</label><br>
+
+                                <input type="radio" id="{{ i['question'] }}4" name="{{ i['questionID'] }}" value="4">
+                                <label class="quiz-radio" for="{{ i['question'] }}4">{{ i["answers"][3] }}</label><br>
+
+
+
+
+
+
+                            </div>
                         </div>
+                        <a href="#carouselExampleControls" role="button" data-slide="prev" style="text-align: center;">
+                            <button class="register-btn">
+                                <span class="carousel-control-prev-icon" aria-hidden="true">Previous</span>
 
+                            </button> </a>
+                        <a href="#carouselExampleControls" role="button" data-slide="next"> <button
+                                class="register-btn">
+                                <span class="carousel-control-next-icon" aria-hidden="true">Next</span>
 
-                        <input type="checkbox" id="option2" name="g1" value="2">
-                        <label name="g1" for="option2">{1, 4, 5, 8, 9, 11, 16}</label><br>
-
-                        <input type="checkbox" id="option3" name="g1" value="3">
-                        <label name="g1" for="option3">{1, 2, 6, 7, 9, 14, 15, 19}</label><br>
-
-                        <input type="checkbox" id="option4" name="g1" value="4">
-                        <label name="g1" for="option4">{3, 4, 5, 8, 10, 11, 14, 16, 18}</label><br>
-                    </fieldset>
-
-
-                    <fieldset id="g1">
-
-                        <p name="question" value="{{ i['question'] }}">What is the union of these two sets? {0, 11, 16,
-                            17,
-                            16} {2, 13, 5, 3, 18}</p>
-                        <div class="checkboxes">
-                            <input class="checkbox-box" type="checkbox" id="option1" name="g1" value="1">
-                            <label name="g1" for="option1">{0, 2, 3, 5, 11, 13, 16, 17,
-                                18}</label><br>
-                        </div>
-
-
-                        <input type="checkbox" id="option2" name="g1" value="2">
-                        <label name="g1" for="option2">{1, 4, 5, 8, 9, 11, 16}</label><br>
-
-                        <input type="checkbox" id="option3" name="g1" value="3">
-                        <label name="g1" for="option3">{1, 2, 6, 7, 9, 14, 15, 19}</label><br>
-
-                        <input type="checkbox" id="option4" name="g1" value="4">
-                        <label name="g1" for="option4">{3, 4, 5, 8, 10, 11, 14, 16, 18}</label><br>
-                    </fieldset>
-
-
+                            </button> </a>
+                    </div>
                     <button type="submit" class="register-btn">Submit</button>
-
                 </form>
 
             </div>

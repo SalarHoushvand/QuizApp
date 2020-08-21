@@ -131,6 +131,25 @@ input[type="radio"]:checked+label {
     font-weight: bold;
 }
 
+.carousel-control-prev,
+.carousel-control-next {
+    bottom: -80%;
+
+}
+
+
+.carousel-control-next-icon {
+    background-image: none;
+    width: auto;
+
+
+}
+
+.carousel-control-prev-icon {
+    background-image: none;
+    width: auto;
+}
+
 /* chart */
 @media only screen and (max-width: 600px) {
     #curve_chart {

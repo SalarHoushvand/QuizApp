@@ -43,27 +43,55 @@
 
             <form action="{{ url_for('quiz', quiz_id=quiz_id) }}" method="POST" enctype="multipart/form-data"
                 value="{{ quiz_id }}" name="quiz">
-                {% for i in questions %}
 
-                <!-- // question -->
-                <p name="question" class="question-p" value="{{ i['question'] }}">{{ i["question"] }}</p>
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
 
-                <!-- // choices -->
-                <input type="radio" id="{{ i['question'] }}1" name="{{ i['questionID'] }}" value="1">
-                <label class="quiz-radio" for="{{ i['question'] }}1">{{ i["answers"][0] }}</label><br>
+                            <h4>Please make sure you answered all questions before submit</h4>
+                            <p>Click on Next to start</p>
 
-                <input type="radio" id="{{ i['question'] }}2" name="{{ i['questionID'] }}" value="2">
-                <label class="quiz-radio" for="{{ i['question'] }}2">{{ i["answers"][1] }}</label><br>
 
-                <input type="radio" id="{{ i['question'] }}3" name="{{ i['questionID'] }}" value="3">
-                <label class="quiz-radio" for="{{ i['question'] }}3">{{ i["answers"][2] }}</label><br>
+                        </div>
 
-                <input type="radio" id="{{ i['question'] }}4" name="{{ i['questionID'] }}" value="4">
-                <label class="quiz-radio" for="{{ i['question'] }}4">{{ i["answers"][3] }}</label><br>
-                <br>
-                <br>
 
-                {% endfor %}
+
+                        {% for i in questions %}
+
+                        <div class="carousel-item">
+
+                            <p>{{ (questions.index(i) + 1) }} / {{ question_num }} </p>
+                            <!-- // question -->
+                            <p name="question" class="question-p" value="{{ i['question'] }}">{{ i["question"] }}</p>
+
+                            <!-- // choices -->
+                            <input type="radio" id="{{ i['question'] }}1" name="{{ i['questionID'] }}" value="1">
+                            <label class="quiz-radio" for="{{ i['question'] }}1">{{ i["answers"][0] }}</label><br>
+
+                            <input type="radio" id="{{ i['question'] }}2" name="{{ i['questionID'] }}" value="2">
+                            <label class="quiz-radio" for="{{ i['question'] }}2">{{ i["answers"][1] }}</label><br>
+
+                            <input type="radio" id="{{ i['question'] }}3" name="{{ i['questionID'] }}" value="3">
+                            <label class="quiz-radio" for="{{ i['question'] }}3">{{ i["answers"][2] }}</label><br>
+
+                            <input type="radio" id="{{ i['question'] }}4" name="{{ i['questionID'] }}" value="4">
+                            <label class="quiz-radio" for="{{ i['question'] }}4">{{ i["answers"][3] }}</label><br>
+                            <br>
+                            <br>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    <a href="#carouselExampleControls" role="button" data-slide="prev" style="text-align: center;">
+                        <button class="register-btn">
+                            <span class="carousel-control-prev-icon" aria-hidden="true">Previous</span>
+
+                        </button> </a>
+                    <a href="#carouselExampleControls" role="button" data-slide="next"> <button class="register-btn">
+                            <span class="carousel-control-next-icon" aria-hidden="true">Next</span>
+
+                        </button> </a>
+                </div>
                 <!-- //submit button -->
                 <button type="submit" class="register-btn">Submit</button>
                 <br>
