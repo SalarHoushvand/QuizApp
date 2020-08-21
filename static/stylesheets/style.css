@@ -138,3 +138,20 @@ input[type="radio"]:checked+label {
         height: 250px !important;
     }
 }
+
+.progress-table-title {
+    color: #FE7676;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: white
+}
+
+
+a:hover {
+    text-decoration: none;
+    color: white
+}

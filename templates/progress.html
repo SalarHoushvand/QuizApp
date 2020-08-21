@@ -25,6 +25,8 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('pre_quiz')}}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{{ url_for('progress')}}">Progress</a></li>
+                <li class="nav-item"><a class="nav-link " href="{{ url_for('about')}}">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('logout')}}">Log out</a></li>
             </ul>
         </div>
@@ -38,6 +40,18 @@
         <div class="col quiz-col">
             <h3>Your Progress</h3>
             <div id="curve_chart" style="width: 900px; height: 500px"></div>
+
+            <p class="progress-table-title">Submit Date &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Score</p>
+
+            {% for i in table_data %}
+
+            <p>{{ i[1] }} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {{ i[0] }}</p>
+
+            {% endfor %}
+            <p></p>
         </div>
     </div>
 </div>

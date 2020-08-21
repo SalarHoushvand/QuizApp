@@ -56,3 +56,8 @@ topics = requests.get('https://mathgen-api.herokuapp.com/topics')
 topic_json = topics.json()
 
 print(topic_json['topics']['bayes theorem'])
+
+
+li = [1,2,3,4,5]
+li.reverse()
+print(li)

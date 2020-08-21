@@ -214,14 +214,43 @@ def progress():
     scores = []
     dates = []
     for i in quesries:
+
         scores.append(i.score)
         dates.append(i.submit_date)
     score_str = (str(scores).replace("[", '').replace(']', '').replace("'",""))
     date_str = (str(dates).replace("]", '').replace('[', '').replace("'",""))
 
-    return render_template("progress.html", score_str=score_str, date_str=date_str)
+    table_data = []
+    for i in range(len(scores)):
+        arr = []
+        arr.append(scores[i])
+        arr.append(dates[i])
+        table_data.append(arr)
+    table_data.reverse()
+
+    return render_template("progress.html", score_str=score_str, date_str=date_str, table_data=table_data)
+
+
+@app.route('/about', methods=['GET'])
+def about():
+    """about the project and credits"""
+
+    return render_template("about.html")
+
+
+# error handlings
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def not_logged_in(e):
+    # note that we set the 404 status explicitly
+    return render_template('500.html'), 500
 
 
 # app run
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
