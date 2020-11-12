@@ -546,7 +546,8 @@ def forget_pass():
         msg = f'An email containing your new password has sent to {reciever_email}'
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
-        server.login("questionsystem2020@gmail.com", 'Password2020')
+        mail_pass = os.environ.get('EMAILPASSWORD')
+        server.login("questionsystem2020@gmail.com", mail_pass)
 
         hashed_paswd = pbkdf2_sha256.hash(new_pass)
 
