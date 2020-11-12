@@ -11,7 +11,7 @@ import uuid
 from datetime import date, datetime
 from flask_cors import CORS, cross_origin
 # APP
-from QuizApp.QuizApp.wtform_fields import AdminLogin
+#from QuizApp.QuizApp.wtform_fields import AdminLogin
 
 app = Flask(__name__)
 # app.secret_key = os.environ.get('SECRET')
