@@ -28,7 +28,7 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('passwordn_label',
                              validators=[
                                  InputRequired(message="Please choose a password"),
-                                 Length(min=6, message="Password must be at least 6 characters")
+                                 Length(min=6,max=50, message="Password must be at least 6 characters")
                              ])
     confirm_pswd = PasswordField('confirm_pswd_label',
                                  validators=[

@@ -152,7 +152,7 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'test', response.data)
 
-# admin login
+    # admin login
 
     def test_login_admin(self):
         """
@@ -164,10 +164,20 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Admin Portal', response.data)
 
-# User dashboard
-    def test_api_fetch(self):
+    # User dashboard
+
+    def test_pre_quiz(self):
         """
         test 12
+        this test makes sure that user dashboard loads
+        """
+        self.login('test@test.com', '11111111')
+        response = self.app.get('/pre_quiz')
+        self.assertEqual(response.status_code, 200)
+
+    def test_api_fetch(self):
+        """
+        test 13
         testing to make sure website could get any data from question API
         """
         self.login('test@test.com', '11111111')
@@ -177,12 +187,70 @@ class BasicTests(unittest.TestCase):
         self.assertIn(b'inverse-function', response.data)
         self.assertIn(b'reflexive-closure', response.data)
 
-
-    def test_pre_quiz(self):
+    def test_posted_material(self):
+        """
+        test 14
+        testing to make sure user has access to the posted content
+        """
         self.login('test@test.com', '11111111')
         response = self.app.get('/pre_quiz')
-        print(response.data)
         self.assertEqual(response.status_code, 200)
+        self.assertIn(b'this is a test content', response.data)
+
+    def test_posted_announcements(self):
+        """
+        test 15
+        testing to make sure user can see the posted questions
+        """
+        self.login('test@test.com', '11111111')
+        response = self.app.get('/pre_quiz')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'test-announcement', response.data)
+
+    def test_posted_question(self):
+        """
+        test 16
+        testing to make sure user has access to the posted content
+        """
+        self.login('test@test.com', '11111111')
+        response = self.app.get('/pre_quiz')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'test-question-topic', response.data)
+
+    # progress
+
+    def test_progress_page(self):
+        """
+        test 17
+        testing to see the progress page keeps record of users scores.
+        """
+        self.login('test@test.com', '11111111')
+        response = self.app.get('/progress')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'50.0', response.data)
+
+    # Inbox
+    def test_user_inbox(self):
+        """
+        test 18
+        this test makes sure user gets the messages
+        """
+        self.login('test@test.com', '11111111')
+        response = self.app.get('/inbox')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'admin', response.data)
+        self.assertIn(b'test msg', response.data)
+
+    # user logout
+    def test_user_logout(self):
+        """
+        test 19
+        this test makes sure user log out function works properly
+        """
+        self.login('test@test.com', '11111111')
+        response = self.logout()
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'login', response.data)
 
 
 if __name__ == "__main__":
