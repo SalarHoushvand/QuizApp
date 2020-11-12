@@ -21,6 +21,7 @@
                 <li class="nav-item active"><a class="nav-link active" href="{{ url_for('pre_quiz')}}">Dashboard</a>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('progress')}}">Progress</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('inbox')}}">Inbox</a></li>
                 <li class="nav-item"><a class="nav-link " href="{{ url_for('about')}}">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('logout')}}">Log out</a></li>
             </ul>
@@ -32,11 +33,33 @@
 // container -->
 <div class="container">
     <div class="row">
-        <div class="col">
+        <div class="col-md-9">
             <!-- // pre-quiz form -->
+            <h3 style="margin-top:10px">Learning Content</h3>
             <form action="/pre_quiz" method="POST" enctype="multipart/form-data" class="pre-quiz-form">
                 <!-- // topic selector -->
-                <label for="topic">Select a topic for quiz :</label><br>
+                <label for="topic">Select Content Topic :</label><br>
+                <select id="contentTopic" name="contentTopic" class="form-control pre-quiz-input">
+
+                    {% for i in content_topics %}
+                    <option name="{{ i }}" value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+
+                </select>
+
+                <!-- // submit button -->
+                <button type="submit" class="register-btn" value="content" name="btn">Start Learning</button>
+
+                <br>
+                <br>
+                <br>
+                <h3>Practice Questions</h3>
+
+                <!-- // pre-quiz form -->
+
+                <!-- // topic selector -->
+                <label for="topic">Select a topic for practice questions from automatic question generation
+                    :</label><br>
                 <select id="topic" name="topic" class="form-control pre-quiz-input">
                     {% for i in topics %}
                     <option name="{{ i }}" value="{{ i }}">{{ i }}</option>
@@ -47,8 +70,27 @@
                 <!-- // choose number of questions -->
                 <label for="questionNumber">Number of Questions:</label><br>
                 <input type="text" id="questionNumber" name="questionNumber" class="form-control pre-quiz-input"><br>
+
+
+
                 <!-- // submit button -->
-                <button type="submit" class="register-btn">Start Quiz</button>
+                <button type="submit" class="register-btn" value="quiz" name="btn">Start Quiz</button>
+
+
+
+                <br>
+                <br>
+                <h3>Practice Questions</h3>
+                <label for="customTopic">Select a topic for practice questions from question bank
+                    :</label><br>
+                <select id="customTopic" name="customTopic" class="form-control pre-quiz-input">
+                    {% for i in custom_topics %}
+                    <option name="{{ i }}" value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="register-btn" value="customTopic" name="btn">Start Quiz</button>
+
+
             </form>
 
             <br>
@@ -62,6 +104,20 @@
                         d="M8.146 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.793 8 8.146 5.354a.5.5 0 0 1 0-.708z" />
                     <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5H11a.5.5 0 0 1 0 1H4.5A.5.5 0 0 1 4 8z" />
                 </svg></button>
+        </div>
+        <div class="col-md-3" style=" margin: 20px 0px; border-radius:10px">
+            <h3 style="margin: 20px 0px;">Announcements</h3>
+
+            {% for i in table_data %}
+
+            <h5>{{ i[1] }}</h5>
+            <p>{{ i[2] }}</p>
+            <p>{{ i[0] }}</p>
+            <br>
+
+
+            {% endfor %}
+
         </div>
     </div>
 </div>

@@ -1,0 +1,189 @@
+# This file includes all unittests
+
+
+import os
+import unittest
+from app import app, db, login
+
+TEST_DB = 'test.db'
+
+
+class BasicTests(unittest.TestCase):
+
+    # executed prior to each test
+    def setUp(self):
+        app.config['TESTING'] = True
+        app.config['WTF_CSRF_ENABLED'] = False
+        app.config['DEBUG'] = False
+        app.config[
+            'SQLALCHEMY_DATABASE_URI'] = 'postgres://jhivjrfwkjzlff:9c37a83349353453a04fb5ae5102d86d9b84ae8fea94b46c24e01c3d4a4a0da2@ec2-54-81-37-115.compute-1.amazonaws.com:5432/d3lm6g7l0bs75i'
+        self.app = app.test_client()
+        db.drop_all()
+        db.create_all()
+
+    # executed after each test
+    def tearDown(self):
+        pass
+
+    # Helper Methods
+
+    def register(self, email, password, confirm):
+        return self.app.post(
+            '/',
+            data=dict(email=email, password=password, confirm_pswd=confirm),
+            follow_redirects=True
+        )
+
+    def login(self, email, password):
+        return self.app.post(
+            '/login',
+            data=dict(email=email, password=password),
+            follow_redirects=True
+        )
+
+    def logout(self):
+        return self.app.get(
+            '/logout',
+            follow_redirects=True
+        )
+
+    # Tests
+
+    # Registration
+
+    def test_registration_page(self):
+        """
+        test 1
+        :return:
+        """
+        response = self.app.get('/', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_valid_email_registration(self):
+        """
+        test 2
+        :return:
+        """
+        response = self.register('patkennedy79@gmail.com', 'FlaskIsAwesome', 'FlaskIsAwesome')
+        self.assertEqual(response.status_code, 200)
+        print(response.data)
+        self.assertIn(b'login', response.data)
+
+    def test_invalid_email_registration(self):
+        """
+        test 3
+        """
+        response = self.register('mail', 'FlaskIsAwesome', 'FlaskIsAwesome')
+        self.assertEqual(response.status_code, 200)
+        print(response.data)
+        self.assertIn(b'Please enter a valid mail', response.data)
+
+    def test_not_matching_password_registration(self):
+        """
+        test 4
+        :return:
+        """
+        response = self.register('mail@test.com', '11111111', '22222222')
+        self.assertEqual(response.status_code, 200)
+        print(response.data)
+        self.assertIn(b'password must match', response.data)
+
+    def test_short_password_registration(self):
+        """
+        test 5
+        :return:
+        """
+        """
+        Password must be at least 6 characters, this function test that.
+        """
+        response = self.register('mail@test.com', '12345', '12345')
+        self.assertEqual(response.status_code, 200)
+        print(response.data)
+        self.assertIn(b'Password must be at least 6 characters', response.data)
+
+    def test_existing_email_registration(self):
+        """
+        test 6
+        Email should not already exist in the database, this function tests that.
+        """
+        response = self.register('test@test.com', '11111111', '11111111')
+        self.assertEqual(response.status_code, 200)
+        print(response.data)
+        self.assertIn(b'Email already exists', response.data)
+
+    # Login
+    def test_login_valid(self):
+        """
+        test 7
+        testing login function with valid credentials
+        """
+
+        response = self.login('test@test.com', '11111111')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'welcome', response.data)
+
+    def test_login_invalid(self):
+        """
+        test 8
+        testing login function with invalid credentials
+        """
+
+        response = self.login('invalid@test.com', '11111111')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Email or password incorrect', response.data)
+
+    def test_login_empty_field(self):
+        """
+        test 9
+        testing login function with invalid credentials
+        """
+
+        response = self.login('', '')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'fill', response.data)
+
+    def test_login_user_session(self):
+        """
+        test 10
+        testing to make sure that the username used in login in the same as the current session
+        """
+
+        response = self.login('test@test.com', '11111111')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'test', response.data)
+
+# admin login
+
+    def test_login_admin(self):
+        """
+        test 11
+        testing login function for admin
+        """
+
+        response = self.login('admin@admin.com', '11111111')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Admin Portal', response.data)
+
+# User dashboard
+    def test_api_fetch(self):
+        """
+        test 12
+        testing to make sure website could get any data from question API
+        """
+        self.login('test@test.com', '11111111')
+        response = self.app.get('/pre_quiz')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'set-union', response.data)
+        self.assertIn(b'inverse-function', response.data)
+        self.assertIn(b'reflexive-closure', response.data)
+
+
+    def test_pre_quiz(self):
+        self.login('test@test.com', '11111111')
+        response = self.app.get('/pre_quiz')
+        print(response.data)
+        self.assertEqual(response.status_code, 200)
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -2,7 +2,7 @@
 
 {% extends "prelogin-layout.html" %}
 
-{% block title %}Registration{% endblock %}
+{% block title %}Admin Registration{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -11,13 +11,15 @@
             <div class="login-container">
 
                 <!-- // header image -->
-                <img src="../static/images/mathematics.svg" class="math-svg">
+                <img src="../static/images/admin.svg" class="math-svg">
                 <h1>Register</h1>
-                <form action="{{ url_for('index')}}" method="POST" class="register-form">
+                <form action="{{ url_for('admin_register')}}" method="POST" class="register-form">
                     {{ helper.displayField(form.email, 'Username', autocomplete='off', autofocus=true, class='form-control register-inputs' ) }}
                     {{ helper.displayField(form.password, 'Password', class='form-control register-inputs' ) }}
-                    <!-- both fields need to match -->
                     {{ helper.displayField(form.confirm_pswd, 'Retype Password', class='form-control register-inputs' ) }}
+                    {{ helper.displayField(form.sec_token, 'Security Token', class='form-control register-inputs' ) }}
+                    {{ helper.displayField(form.admin, 'admin', class='form-control register-inputs admin-field') }}
+
                     <div>
                         {{ form.submit_button(class = 'register-btn') }}
                         <br>
@@ -26,7 +28,7 @@
                 </form>
 
                 <!-- button for login page -->
-                <a href="{{ url_for('login')}}"><button class="register-btn-white">Login</button></a>
+                <a href="{{ url_for('admin_login')}}"><button class="register-btn-white">Login</button></a>
 
             </div>
         </div>

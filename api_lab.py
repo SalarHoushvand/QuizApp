@@ -51,8 +51,7 @@ print('\n\n\n\n\n')
 # finally:
 #     print("it's done")
 #
-topics = requests.get('https://mathgen-api.herokuapp.com/topics')
+import os
+print(os.urandom(24))
 
-topic_json = topics.json()
 
-print(topic_json['topics']['bayes theorem'])

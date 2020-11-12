@@ -2,7 +2,7 @@
 
 {% extends "prelogin-layout.html" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Admin Login{% endblock %}
 
 {% block content %}
 
@@ -12,11 +12,9 @@
             <div class="login-container">
 
                 <!-- // header image -->
-                <!-- redirects to welcome page -->
-                <!-- user needs to fill out all the pages -->
-                <img src="../static/images/mathematics.svg" class="math-svg">
+                <img src="../static/images/admin.svg" class="math-svg">
                 <h1>Login</h1>
-                <form action="{{ url_for('login')}}" method="POST">
+                <form action="{{ url_for('admin_login')}}" method="POST">
                     {{ helper.displayField(form.email, 'Email', autocomplete='off', autofocus=true,class='form-control register-inputs'  ) }}
                     {{ helper.displayField(form.password, 'Password',class='form-control register-inputs' ) }}
                     <div>
@@ -25,9 +23,8 @@
                     {{ form.csrf_token }}
                 </form>
                 <!-- // button for register page -->
-                <a href="{{ url_for('index')}}"><button class="register-btn-white">Create
-                        Account</button></a>
-
+                <a href="{{ url_for('index')}}"><button class="register-btn-white">Create Account</button></a>
+                <a href="{{ url_for('admin_login')}}"><button class="register-btn-white">Admin Login</button></a>
             </div>
         </div>
     </div>

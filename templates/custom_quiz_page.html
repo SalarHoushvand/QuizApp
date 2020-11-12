@@ -26,7 +26,6 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('pre_quiz')}}">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('progress')}}">Progress</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('inbox')}}">Inbox</a></li>
                 <li class="nav-item"><a class="nav-link " href="{{ url_for('about')}}">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('logout')}}">Log out</a></li>
             </ul>
@@ -42,8 +41,8 @@
 
             <h1>Quiz</h1>
 
-            <form action="{{ url_for('quiz', quiz_id=quiz_id) }}" method="POST" enctype="multipart/form-data"
-                value="{{ quiz_id }}" name="quiz">
+            <form action="{{ url_for('custom_quiz_page', question_id=question_id) }}" method="POST"
+                enctype="multipart/form-data" value="{{ quiz_id }}" name="quiz">
 
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
                     <div class="carousel-inner">
@@ -61,7 +60,7 @@
 
                         <div class="carousel-item">
 
-                            <p>{{ (questions.index(i) + 1) }} / {{ question_num }} </p>
+                            <!-- <p>{{ (questions.index(i) + 1) }} / {{ question_num }} </p> -->
                             <!-- // question -->
                             <p name="question" class="question-p" value="{{ i['question'] }}">{{ i["question"] }}</p>
 

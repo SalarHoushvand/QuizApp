@@ -1,0 +1,90 @@
+{% extends "prelogin-layout.html" %}
+
+{% block title %}Quiz{% endblock %}
+
+{% block content %}
+
+<!-- // navbar -->
+<nav class="navbar navbar-expand-md navbar-dark sticky-top">
+    <div class="container-fluid">
+        <!-- // welcome message -->
+        <p class="navbar-welcome">Welcome to Admin Portal</p>
+
+        <!-- // collapse toggle button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- // navbar items -->
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a class="nav-link active" href="{{ url_for('pre_quiz')}}">Dashboard</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('student_progress')}}">Students Progress</a>
+                </li>
+                <li class="nav-item"><a class="nav-link " href="{{ url_for('pre_quiz_generator')}}">Add Question</a>
+                </li>
+                <li class="nav-item"><a class="nav-link " href="{{ url_for('add_material')}}">Add Material</a></li>
+                </a></li>
+                <li class="nav-item "><a class="nav-link " href="{{ url_for('add_announcement')}}">Add
+                        Announcement</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout')}}">Log out</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 
+// container -->
+<div class="container">
+
+    <div class="row" style="margin-top: 20px; text-align: center;">
+
+
+        <h2 style="text-align: center; margin-left:auto; margin-right:auto; margin-bottom:-50px"> Admin <img
+                src="../static/images/admin.svg" style="width: 50px; margin-top:-10px"> Portal</h2>
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-md-6" style="text-align: center;">
+
+            <h3 style="margin-top:100px;">Student Records</h3>
+            <p>View students scores in each quiz.</p>
+
+            <button class="register-btn"><a href="{{ url_for('student_progress')}}">Student Records</a></button>
+
+
+            <h3 style="margin-top:20px;">Add Content</h3>
+            <p>Add learning content.</p>
+
+            <button class="register-btn"><a href="{{ url_for('add_material')}}">Add content</a></button>
+        </div>
+
+        <div class="col-md-6" style="text-align: center;">
+
+            <h3 style="margin-top:100px;">Add Announcements</h3>
+            <p>Add or delete announcements.</p>
+
+            <button class="register-btn"><a href="{{ url_for('add_announcement')}}">Announcements</a></button>
+
+
+            <h3 style="margin-top:20px;">Question Maker</h3>
+            <p>Add new questions to the system.</p>
+
+            <button class="register-btn"><a href="{{ url_for('pre_quiz_generator')}}">Add question</a></button>
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+<a href="{{ url_for('messenger')}}"><img src="../static/images/messenger.svg" alt="Smiley face" class="msg"></a>
+
+
+
+{% endblock %}
