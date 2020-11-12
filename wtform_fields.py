@@ -22,13 +22,13 @@ class RegistrationForm(FlaskForm):
     email = StringField('email_label',
                            validators=[
                                InputRequired(message="Please enter email"),
-                               Length(min=6, max=50, message="Please enter a valid mail"),
+                               Length(min=8, max=50, message="Please enter a valid mail"),
                                Email("Please enter a valid mail")
                            ])
     password = PasswordField('passwordn_label',
                              validators=[
                                  InputRequired(message="Please choose a password"),
-                                 Length(min=6,max=50, message="Password must be at least 6 characters")
+                                 Length(min=6, max=50, message="Password must be between 6 and 50 characters")
                              ])
     confirm_pswd = PasswordField('confirm_pswd_label',
                                  validators=[

@@ -1,4 +1,5 @@
 import os
+import random
 
 from flask import Flask, render_template, redirect, url_for, flash, request
 from wtform_fields import *
@@ -10,8 +11,11 @@ from clarifai.errors import ApiError
 import uuid
 from datetime import date, datetime
 from flask_cors import CORS, cross_origin
+import smtplib
+import string
+from flask_sqlalchemy import SQLAlchemy
 # APP
-#from QuizApp.QuizApp.wtform_fields import AdminLogin
+# from QuizApp.QuizApp.wtform_fields import AdminLogin
 
 app = Flask(__name__)
 # app.secret_key = os.environ.get('SECRET')
@@ -320,13 +324,22 @@ def add_material():
     if request.method == 'POST':
         topic = request.form.get('topic')
         content = request.form.get('content')
-        print(content)
-        material_query = mds.Material(topic=topic, content=content)
-        db.session.add(material_query)
-        db.session.commit()
-        db.session.close()
+        if topic == '':
+            err_msg = 'Topic can not be empty'
+            return render_template("add_material.html", err_msg=err_msg)
+        elif len(topic) > 80:
+            err_msg = 'topic length is ' + str(len(topic)) + 'maximum allowed is 80'
+            return render_template("add_material.html", err_msg=err_msg)
+        elif len(content) > 1000:
+            err_msg = 'content length is ' + str(len(content)) + 'maximum allowed is 1000'
+            return render_template("add_material.html", err_msg=err_msg)
+        else:
+            material_query = mds.Material(topic=topic, content=content)
+            db.session.add(material_query)
+            db.session.commit()
+            db.session.close()
 
-        return render_template("add_material.html", submit_msg='Submitted!')
+            return render_template("add_material.html", submit_msg='Submitted!')
 
     else:
         return render_template("add_material.html", submit_msg='')
@@ -338,13 +351,22 @@ def add_announcement():
         topic = request.form.get('topic')
         content = request.form.get('content')
         post_date = str(date.today())
-        print(content)
-        material_query = mds.Announcements(topic=topic, content=content, date=post_date)
-        db.session.add(material_query)
-        db.session.commit()
-        db.session.close()
 
-        return render_template("add_announcements.html", submit_msg='Announcment posted!')
+        if topic == '' or content == '':
+            return render_template("add_announcements.html", err_msg='Announcement should has a topic and text')
+        elif len(topic) > 80:
+            err_msg = 'topic length is ' + str(len(topic)) + ' maximum allowed is 80'
+            return render_template("add_announcements.html", err_msg=err_msg)
+        elif len(content) > 200:
+            err_msg = 'announcement length is ' + str(len(content)) + ' maximum allowed is 200'
+            return render_template("add_announcements.html", err_msg=err_msg)
+
+        else:
+            material_query = mds.Announcements(topic=topic, content=content, date=post_date)
+            db.session.add(material_query)
+            db.session.commit()
+            db.session.close()
+            return render_template("add_announcements.html", submit_msg='Announcement posted!')
 
     return render_template("add_announcements.html")
 
@@ -441,7 +463,6 @@ def custom_quiz_page():
                 score_int = score_int + point
         score = str(score_int)
 
-
         quiz_query = mds.Scores(quiz_id=quiz_id, user_email=user_email, user_selections=user_selections,
                                 submit_date=submit_date, score=score)
         db.session.add(quiz_query)
@@ -450,7 +471,7 @@ def custom_quiz_page():
         return render_template("post_quiz.html", quiz_id=quiz_id, questions=questions, user_selections=user_selections,
                                submit_date=submit_date, user_email=user_email, score=score)
 
-    return render_template("custom_quiz_page.html",quiz_id=quiz_id, questions=questions)
+    return render_template("custom_quiz_page.html", quiz_id=quiz_id, questions=questions)
 
 
 @app.route('/messenger', methods=['GET', 'POST'])
@@ -461,11 +482,14 @@ def messenger():
         sender = 'admin'
         user = request.form.get('user')
         msg = request.form.get('msg')
-        msg_query = mds.Messages(user=user, msg=msg, date=date, sender=sender)
-        db.session.add(msg_query)
-        db.session.commit()
-        db.session.close()
-        return render_template("messenger.html", submit_msg='message sent')
+        if msg == '':
+            return render_template("messenger.html", err_msg='Message can not be empty')
+        else:
+            msg_query = mds.Messages(user=user, msg=msg, date=date, sender=sender)
+            db.session.add(msg_query)
+            db.session.commit()
+            db.session.close()
+            return render_template("messenger.html", submit_msg='message sent')
 
     user_quesries = mds.User.query.all()
     users = []
@@ -501,10 +525,51 @@ def inbox():
     return render_template("inbox.html", data=table_data)
 
 
+def random_string( length):
+    """
+    random string generator to test inputs
+    :param length: length of the string
+    :return: string
+    """
+    return ''.join(random.choices(string.ascii_uppercase +
+                                  string.digits, k=length))
+@app.route('/forget_pass', methods=['GET', 'POST'])
+def forget_pass():
+
+    if request.method == 'POST':
+
+        sender_email = "questionsystem2020@gmail.com"
+        reciever_email = request.form.get('email')
+
+        new_pass = random_string(10)
+        message = f'Your new password is {new_pass}'
+        msg = f'An email containing your new password has sent to {reciever_email}'
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login("questionsystem2020@gmail.com", 'Password2020')
+
+        hashed_paswd = pbkdf2_sha256.hash(new_pass)
+
+        r = db.engine.execute(f"UPDATE users SET password = '{hashed_paswd}' WHERE email = '{reciever_email}';")
+        db.session.commit()
+        server.sendmail(sender_email, reciever_email, message)
+
+        return render_template("forget_pass.html", msg=msg)
+
+
+    return render_template("forget_pass.html")
+
 # error handlings
+
+# def dbtest():
+#     mds.User.query.filter_by(email='salarhoushvand@yahoo.com').update(dict(email='newone'))
+#     db.session.commit()
+#     print('done')
+# dbtest()
 
 @app.errorhandler(404)
 def page_not_found(e):
+
     # note that we set the 404 status explicitly
     return render_template('404.html'), 404
 
