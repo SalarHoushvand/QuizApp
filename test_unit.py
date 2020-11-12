@@ -67,15 +67,14 @@ class BasicTests(unittest.TestCase):
 
     def test_registration_page(self):
         """
-        test 1
-        :return:
+        test TC001
         """
         response = self.app.get('/', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
     def test_valid_email_registration(self):
         """
-        test 2
+        test TC002
         :return:
         """
         response = self.register('patkennedy79@gmail.com', 'FlaskIsAwesome', 'FlaskIsAwesome')
@@ -84,7 +83,7 @@ class BasicTests(unittest.TestCase):
 
     def test_invalid_email_registration(self):
         """
-        test 3
+        test TC003
         """
         response = self.register('mail', 'FlaskIsAwesome', 'FlaskIsAwesome')
         self.assertEqual(response.status_code, 200)
@@ -92,8 +91,7 @@ class BasicTests(unittest.TestCase):
 
     def test_not_matching_password_registration(self):
         """
-        test 4
-        :return:
+        test TC004
         """
         response = self.register('mail@test.com', '11111111', '22222222')
         self.assertEqual(response.status_code, 200)
@@ -101,20 +99,16 @@ class BasicTests(unittest.TestCase):
 
     def test_short_password_registration(self):
         """
-        test 5
-        :return:
+        test TC005
         """
-        """
-        Password must be at least 6 characters, this function test that.
-        """
+
         response = self.register('mail@test.com', '12345', '12345')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Password must be between 6 and 50 characters', response.data)
 
     def test_existing_email_registration(self):
         """
-        test 6
-        Email should not already exist in the database, this function tests that.
+        test TC006
         """
         response = self.register('test@test.com', '11111111', '11111111')
         self.assertEqual(response.status_code, 200)
@@ -122,7 +116,7 @@ class BasicTests(unittest.TestCase):
 
     def test_password_boundaries(self):
         """
-        test 7
+        test TC007
         testing boundary range for password
         min 6
         max 50
@@ -167,7 +161,7 @@ class BasicTests(unittest.TestCase):
 
     def test_email_boundaries(self):
         """
-        test 8
+        test TC008
         testing boundary range for email
         min 6
         max 50
@@ -211,7 +205,7 @@ class BasicTests(unittest.TestCase):
     # Login
     def test_login_valid(self):
         """
-        test 7
+        test TC009
         testing login function with valid credentials
         """
 
@@ -221,7 +215,7 @@ class BasicTests(unittest.TestCase):
 
     def test_login_invalid(self):
         """
-        test 9
+        test TC010
         testing login function with invalid credentials
         """
 
@@ -231,7 +225,7 @@ class BasicTests(unittest.TestCase):
 
     def test_login_empty_field(self):
         """
-        test 10
+        test TC011
         testing login function with invalid credentials
         """
 
@@ -241,7 +235,7 @@ class BasicTests(unittest.TestCase):
 
     def test_login_user_session(self):
         """
-        test 11
+        test TC012
         testing to make sure that the username used in login in the same as the current session
         """
 
@@ -253,7 +247,7 @@ class BasicTests(unittest.TestCase):
 
     def test_pre_quiz(self):
         """
-        test 12
+        test TC013
         this test makes sure that user dashboard loads
         """
         self.login('test@test.com', '11111111')
@@ -262,7 +256,7 @@ class BasicTests(unittest.TestCase):
 
     def test_api_fetch(self):
         """
-        test 13
+        test TC014
         testing to make sure website could get any data from question API
         """
         self.login('test@test.com', '11111111')
@@ -274,7 +268,7 @@ class BasicTests(unittest.TestCase):
 
     def test_posted_material(self):
         """
-        test 14
+        test TC015
         testing to make sure user has access to the posted content
         """
         self.login('test@test.com', '11111111')
@@ -284,7 +278,7 @@ class BasicTests(unittest.TestCase):
 
     def test_posted_announcements(self):
         """
-        test 15
+        test TC016
         testing to make sure user can see the posted questions
         """
         self.login('test@test.com', '11111111')
@@ -294,7 +288,7 @@ class BasicTests(unittest.TestCase):
 
     def test_posted_question(self):
         """
-        test 16
+        test TC017
         testing to make sure user has access to the posted content
         """
         self.login('test@test.com', '11111111')
@@ -306,7 +300,7 @@ class BasicTests(unittest.TestCase):
 
     def test_progress_page(self):
         """
-        test 17
+        test TC018
         testing to see the progress page keeps record of users scores.
         """
         self.login('test@test.com', '11111111')
@@ -317,7 +311,7 @@ class BasicTests(unittest.TestCase):
     # Inbox
     def test_user_inbox(self):
         """
-        test 18
+        test TC019
         this test makes sure user gets the messages
         """
         self.login('test@test.com', '11111111')
@@ -329,7 +323,7 @@ class BasicTests(unittest.TestCase):
     # questions
     def test_question_number_generated(self):
         """
-            test 19
+            test TC020
             this test makes sure that number of requested question are same as generated questions
             """
         self.login('test@test.com', '11111111')
@@ -350,7 +344,7 @@ class BasicTests(unittest.TestCase):
 
     def test_question_topic(self):
         """
-        test
+        test TC021
         this test makes sure that topics requested are the topics generated
         """
         topic_list = ['ceiling-function', 'set-union', 'function-target', 'set-partition']
@@ -366,7 +360,7 @@ class BasicTests(unittest.TestCase):
     # user logout
     def test_user_logout(self):
         """
-        test 20
+        test TC022
         this test makes sure user log out function works properly
         """
         self.login('test@test.com', '11111111')
@@ -378,7 +372,7 @@ class BasicTests(unittest.TestCase):
 
     def test_login_admin(self):
         """
-        test 21
+        test TC023
         testing login function for admin
         """
 
@@ -389,7 +383,7 @@ class BasicTests(unittest.TestCase):
     # admin student progress
     def test_admin_student_progress(self):
         """
-        test 22
+        test TC024
         testing admin access to students record
         """
         self.login('admin@admin.com', '11111111')
@@ -399,7 +393,7 @@ class BasicTests(unittest.TestCase):
 
     def test_admin_add_announcement(self):
         """
-        test 23
+        test TC025
         testing add announcement function for admin
         """
         self.login('admin@admin.com', '11111111')
@@ -414,7 +408,7 @@ class BasicTests(unittest.TestCase):
 
     def test_admin_announcement_boundaries(self):
         """
-        test 23
+        test TC026
         testing boundaries for announcement topic and body
         topic: min 1, max 80
         body: min 1, max 200
@@ -487,7 +481,7 @@ class BasicTests(unittest.TestCase):
 
     def test_add_content_boundaries(self):
         """
-        test 24
+        test TC027
         testing boundaries for content topic and body
         topic: min 1, max 80
         body: min 1, max 1000
@@ -553,7 +547,7 @@ class BasicTests(unittest.TestCase):
 
     def test_add_question(self):
         """
-        test 25
+        test TC028
         test question maker function for admin
         """
         self.login('admin@admin.com', '11111111')
@@ -566,6 +560,7 @@ class BasicTests(unittest.TestCase):
 
     def test_messenger(self):
         """
+        test TC029
         test messenger functionality for admin
         should not be empty
         """
@@ -584,6 +579,7 @@ class BasicTests(unittest.TestCase):
 
     def test_admin_logout(self):
         """
+        tes TC030
         test admin logout
         """
         self.login('admin@admin.com', '11111111')
@@ -591,9 +587,10 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'login', response.data)
 
-# database
+    # database
     def test_db_users(self):
         """
+        tes TC031
         test users table in database
         """
         self.login('admin@admin.com', '11111111')
@@ -602,19 +599,6 @@ class BasicTests(unittest.TestCase):
         for user in user_object:
             emails.append(user.email)
         self.assertTrue(len(emails) > 0)
-
-    def test_db_admin(self):
-        """
-        test users table in database
-        """
-        self.login('admin@admin.com', '11111111')
-        user_object = mds.Admin.query.all()
-        emails = []
-        for user in user_object:
-            emails.append(user.admin_email)
-        self.assertTrue(len(emails) > 0)
-
-
 
 
 if __name__ == "__main__":
