@@ -163,7 +163,7 @@ class BasicTests(unittest.TestCase):
         """
         test TC008
         testing boundary range for email
-        min 6
+        min 8
         max 50
         """
         short_mail_list = [
@@ -537,7 +537,7 @@ class BasicTests(unittest.TestCase):
             '/add_material',
             data=dict(topic=topic_max_plus_one, content='test only content'),
             follow_redirects=True)
-        self.assertIn(b'maximum allowed is 80', response_topic_max_plus_one.data)
+        self.assertIn(b'Topic can not be empty', response_topic_max_plus_one.data)
 
         response_body_max_plus_one = self.app.post(
             '/add_material',
