@@ -14,6 +14,7 @@ from flask_cors import CORS, cross_origin
 import smtplib
 import string
 from flask_sqlalchemy import SQLAlchemy
+
 # APP
 # from QuizApp.QuizApp.wtform_fields import AdminLogin
 
@@ -168,17 +169,23 @@ def pre_quiz():
                 # redirect to quiz page
                 return redirect(url_for("quiz", quiz_id=quiz_id))
 
+            # if user asks learning content
             elif request.form['btn'] == 'content':
 
+                # get topic from select form
                 selected_topic = request.form.get('contentTopic')
-                content_quesries = mds.Material.query.filter_by(topic=selected_topic).first()
-                c_topic = content_quesries.topic
-                c_body = content_quesries.content
+
+                # get the selected topic from db
+                content_queries = mds.Material.query.filter_by(topic=selected_topic).first()
+                c_topic = content_queries.topic
+                c_body = content_queries.content
 
                 return render_template("content.html", c_topic=c_topic, c_body=c_body)
 
+            # get topic for custom question
             elif request.form['btn'] == 'customTopic':
 
+                # get the topic and questions from db
                 selected_topic = request.form.get('customTopic')
                 content_queries = mds.CustomQuestions.query.filter_by(topic=selected_topic).first()
                 question_id = content_queries.question_id
@@ -187,17 +194,17 @@ def pre_quiz():
 
     else:
 
+        # get all the announcements from db
         quesries = mds.Announcements.query.all()
         topics = []
         dates = []
         contents = []
+
+        # split the query into lists
         for i in quesries:
             contents.append(i.content)
             topics.append(i.topic)
             dates.append(i.date)
-        contents_str = (str(contents).replace("[", '').replace(']', '').replace("'", ""))
-        topics_str = (str(topics).replace("[", '').replace(']', '').replace("'", ""))
-        dates_str = (str(dates).replace("]", '').replace('[', '').replace("'", ""))
 
         table_data = []
         for i in range(len(topics)):
@@ -208,13 +215,18 @@ def pre_quiz():
             table_data.append(arr)
         table_data.reverse()
 
+        # get topics for questions from API
         topics_list = list(topic_json['topics'].keys())
 
+        # get all available learning content data from db
         content_quesries = mds.Material.query.all()
+
+        # get content topics
         content_topics = []
         for i in content_quesries:
             content_topics.append(i.topic)
 
+        # get custom question data from db
         customQuestionQueries = mds.CustomQuestions.query.all()
         custom_question_topics = []
         for i in customQuestionQueries:
@@ -321,9 +333,16 @@ def about():
 
 @app.route('/add_material', methods=['GET', 'POST'])
 def add_material():
+    """
+    A function for admin to add learning content
+    """
+
+    # POST request
     if request.method == 'POST':
+        # get topic and content
         topic = request.form.get('topic')
         content = request.form.get('content')
+        # validate entries
         if topic == '':
             err_msg = 'Topic can not be empty'
             return render_template("add_material.html", err_msg=err_msg)
@@ -333,6 +352,7 @@ def add_material():
         elif len(content) > 1000:
             err_msg = 'content length is ' + str(len(content)) + 'maximum allowed is 1000'
             return render_template("add_material.html", err_msg=err_msg)
+        # add entries into db
         else:
             material_query = mds.Material(topic=topic, content=content)
             db.session.add(material_query)
@@ -347,11 +367,17 @@ def add_material():
 
 @app.route('/add_announcements', methods=['GET', 'POST'])
 def add_announcement():
+    """
+    A function for admin to add announcements for users
+    """
+    # POST request
     if request.method == 'POST':
+        # gets entries from form
         topic = request.form.get('topic')
         content = request.form.get('content')
         post_date = str(date.today())
 
+        # validate entries
         if topic == '' or content == '':
             return render_template("add_announcements.html", err_msg='Announcement should has a topic and text')
         elif len(topic) > 80:
@@ -361,6 +387,7 @@ def add_announcement():
             err_msg = 'announcement length is ' + str(len(content)) + ' maximum allowed is 200'
             return render_template("add_announcements.html", err_msg=err_msg)
 
+        # add entries to db
         else:
             material_query = mds.Announcements(topic=topic, content=content, date=post_date)
             db.session.add(material_query)
@@ -371,13 +398,11 @@ def add_announcement():
     return render_template("add_announcements.html")
 
 
-@app.route('/add_quiz', methods=['GET'])
-def add_quiz():
-    return render_template("add_quiz.html")
-
-
 @app.route('/student_progress', methods=['GET'])
 def student_progress():
+    """
+    show all studet scores to admin
+    """
     # get current user info
     quesries = mds.Scores.query.all()
     scores = []
@@ -405,12 +430,22 @@ def student_progress():
 
 @app.route('/pre_quiz_generator', methods=['GET'])
 def pre_quiz_generator():
+    """
+    pre quiz maker page for admin
+
+    """
     return render_template("pre_quiz_generator.html")
 
 
 @app.route('/question_generation', methods=['GET', 'POST'])
 def question_generation():
+    """
+    add custom questions function for admin
+
+    """
+    # POST request
     if request.method == 'POST':
+        # get entries
         topic = request.form.get('topic')
         question = request.form.get('question')
         op1 = request.form.get('op1')
@@ -418,9 +453,11 @@ def question_generation():
         op3 = request.form.get('op3')
         op4 = request.form.get('op4')
         correctAnswer = request.form.get('correctAnswer')
+        # assigns a unique ID
         question_id = uuid.uuid1().hex
         question_query = mds.CustomQuestions(topic=topic, question_id=question_id, question=question, op1=op1, op2=op2,
                                              op3=op3, op4=op4, correctAnswer=correctAnswer)
+        # add entries to db
         db.session.add(question_query)
         db.session.commit()
         db.session.close()
@@ -432,10 +469,16 @@ def question_generation():
 
 @app.route('/custom_quiz_page', methods=['GET', 'POST'])
 def custom_quiz_page():
+    """
+    quiz page for users that renders questions added by admin
+    """
+    # gets question ID
     question_id = request.args.get("question_id")
+    # gets question data from db
     user_object = mds.CustomQuestions.query.filter_by(question_id=question_id).all()
     questions = []
 
+    # add question to JSON
     for i in user_object:
         questions.append(
             {'question': i.question,
@@ -446,13 +489,14 @@ def custom_quiz_page():
              }
         )
 
-    print(questions)
+    # gets current user and date
     user_email = current_user.email
     submit_date = str(date.today())
     question_num = len(questions)
     point = 100 / 1
     score_int = 0
     quiz_id = uuid.uuid1().hex
+    # POST request
     if request.method == 'POST':
         user_selections = []
         for i in questions:
@@ -463,6 +507,7 @@ def custom_quiz_page():
                 score_int = score_int + point
         score = str(score_int)
 
+        # add submition data to db
         quiz_query = mds.Scores(quiz_id=quiz_id, user_email=user_email, user_selections=user_selections,
                                 submit_date=submit_date, score=score)
         db.session.add(quiz_query)
@@ -476,14 +521,21 @@ def custom_quiz_page():
 
 @app.route('/messenger', methods=['GET', 'POST'])
 def messenger():
+    """
+    messenger function for admin
+    """
+    # POST request
     if request.method == 'POST':
+        # get inquire info
         now = datetime.now()
         date = now.strftime("%d/%m/%Y %H:%M:%S")
         sender = 'admin'
         user = request.form.get('user')
         msg = request.form.get('msg')
+        # validate msg
         if msg == '':
             return render_template("messenger.html", err_msg='Message can not be empty')
+        # add msg to db
         else:
             msg_query = mds.Messages(user=user, msg=msg, date=date, sender=sender)
             db.session.add(msg_query)
@@ -491,6 +543,7 @@ def messenger():
             db.session.close()
             return render_template("messenger.html", submit_msg='message sent')
 
+    # gets all available users
     user_quesries = mds.User.query.all()
     users = []
     for i in user_quesries:
@@ -500,7 +553,13 @@ def messenger():
 
 @app.route('/inbox', methods=['GET', 'POST'])
 def inbox():
+    """
+    Inbox for users to get msg from admin
+    :return:
+    """
+    # get current users email
     user_email = current_user.email
+    # check all messages in db for current user
     msg_quesries = mds.Messages.query.filter_by(user=user_email).all()
     msgs = []
     senders = []
@@ -509,10 +568,6 @@ def inbox():
         msgs.append(i.msg)
         senders.append(i.sender)
         dates.append(i.date)
-
-    msg_str = (str(msgs).replace("[", '').replace(']', '').replace("'", ""))
-    sender_str = (str(senders).replace("[", '').replace(']', '').replace("'", ""))
-    date_str = (str(dates).replace("]", '').replace('[', '').replace("'", ""))
 
     table_data = []
     for i in range(len(msgs)):
@@ -525,53 +580,54 @@ def inbox():
     return render_template("inbox.html", data=table_data)
 
 
-def random_string( length):
+def random_string(length):
     """
-    random string generator to test inputs
+    random string generator to generating new password
     :param length: length of the string
     :return: string
     """
     return ''.join(random.choices(string.ascii_uppercase +
                                   string.digits, k=length))
+
+
 @app.route('/forget_pass', methods=['GET', 'POST'])
 def forget_pass():
-
+    """
+    function to generate and send new password with email
+    """
+    # POST request
     if request.method == 'POST':
-
-
+        # senders information
         sender_email = "questionsystem2020@gmail.com"
-        reciever_email = request.form.get('email')
+        # using env variable to not disclose email pass
+        mail_pass = os.environ.get('EMAILPASSWORD')
 
+        # get the receivers email from form
+        reciever_email = request.form.get('email')
+        # generate a new password with length of 10
         new_pass = random_string(10)
         message = f'Your new password is {new_pass}'
         msg = f'An email containing your new password has sent to {reciever_email}'
+        # connect to gmail with TLS
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
-        mail_pass = os.environ.get('EMAILPASSWORD')
+        # login to gmail
         server.login("questionsystem2020@gmail.com", mail_pass)
-
+        # hash generated password
         hashed_paswd = pbkdf2_sha256.hash(new_pass)
-
+        # execute a quesry to replace old pass with new one
         r = db.engine.execute(f"UPDATE users SET password = '{hashed_paswd}' WHERE email = '{reciever_email}';")
         db.session.commit()
+        # send new pass to user
         server.sendmail(sender_email, reciever_email, message)
 
         return render_template("forget_pass.html", msg=msg)
 
-
     return render_template("forget_pass.html")
 
-# error handlings
-
-# def dbtest():
-#     mds.User.query.filter_by(email='salarhoushvand@yahoo.com').update(dict(email='newone'))
-#     db.session.commit()
-#     print('done')
-# dbtest()
 
 @app.errorhandler(404)
 def page_not_found(e):
-
     # note that we set the 404 status explicitly
     return render_template('404.html'), 404
 
